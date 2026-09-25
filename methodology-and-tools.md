@@ -1,12 +1,12 @@
-# Methodology and Tools
+# Methodology and Attack Sequence
 
-## Assessment Methodology
+## 1. Pre-Engagement and Scope
 
-The penetration test followed a structured workflow that moved from reconnaissance through exploitation and post-exploitation.
+The engagement began with an agreed testing scope covering authorized MegaQuagga systems and services.
 
-## 1. Reconnaissance
+## 2. Reconnaissance
 
-I began by identifying reachable systems, open ports, exposed services, and web application components.
+I identified reachable hosts, exposed services, WordPress components, directories, users, and plugins.
 
 Tools used:
 
@@ -14,94 +14,95 @@ Tools used:
 - Gobuster
 - WPScan
 
-This phase helped identify WordPress services, directories, users, plugins, and other potential attack paths.
+## 3. Vulnerability Discovery
 
-## 2. Vulnerability Scanning
-
-I performed additional scanning to identify known vulnerabilities and configuration weaknesses.
+I performed deeper scanning and enumeration to identify known vulnerabilities and configuration weaknesses.
 
 Tools used:
 
+- Nmap scripting
 - Nuclei
 - Nikto
-- Nmap scripting
+- WPScan
 
-The goal was to identify issues that could be validated during the exploitation phase.
+## 4. WordPress Exploitation
 
-## 3. Exploitation
+A vulnerable WordPress component was identified and validated.
 
-The assessment validated several identified weaknesses in the authorized environment.
+The exploitation sequence included:
 
-Testing included:
-
-- WordPress exploitation
-- Credential brute-force testing
-- Reverse shell execution
-- Privilege escalation testing
+- Preparing a test payload
+- Hosting the payload for retrieval
+- Triggering the vulnerable functionality
+- Establishing a reverse shell
+- Confirming shell access
 
 Tools used:
 
-- Hydra
+- WPScan
+- cURL
 - Metasploit
 - Meterpreter
 - Netcat
-- cURL
 
-## 4. Privilege Escalation
+## 5. Credential Attack
 
-I reviewed the Linux host for privileged binaries and other escalation opportunities.
+A separate WordPress target was tested for weak authentication controls.
 
-Tools and techniques included:
+The sequence included:
 
-- SUID binary enumeration
-- `find`
-- `sudo`
-- `searchsploit`
-- `perl`
-- `gcc`
+- Enumerating valid WordPress usernames
+- Performing credential brute-force testing
+- Successfully authenticating to an administrative account
 
-The assessment confirmed escalation to root-level access.
+Tools used:
 
-## 5. Post-Exploitation
+- WPScan
+- Hydra
 
-After access was obtained, I evaluated the potential impact of the compromise.
+## 6. Privilege Escalation
+
+After gaining host access, I enumerated SUID-enabled binaries and identified a privilege-escalation opportunity.
+
+The sequence included:
+
+- Enumerating SUID binaries
+- Reviewing potential escalation paths
+- Testing elevated access
+- Confirming root-level access
+
+Tools used:
+
+- find
+- sudo
+- searchsploit
+- perl
+- gcc
+
+## 7. Post-Exploitation
+
+After access was established, I evaluated the potential impact of the compromise.
 
 Activities included:
 
 - Reviewing configuration files
+- Gathering credentials
 - Reviewing logs and command history
 - Identifying potential persistence opportunities
-- Mapping additional systems
-- Identifying potential lateral movement paths
+- Mapping additional internal systems
+- Identifying potential lateral movement opportunities
+- Demonstrating impact through access to the WordPress application
 
-## 6. Reporting and Remediation
+## 8. Reporting and Remediation
 
-The final phase focused on documenting the findings and providing remediation recommendations.
+The final phase documented the findings, prioritized the identified weaknesses, and provided remediation guidance.
 
-Recommendations addressed:
+Recommendations included:
 
 - WordPress patching
-- Password security
+- Stronger passwords
 - Multi-factor authentication
-- SUID permissions
+- SUID permission reviews
 - Network segmentation
 - Least privilege
-- Logging and monitoring
-
-## Tools Used
-
-- Nmap
-- Gobuster
-- WPScan
-- Hydra
-- Metasploit
-- Meterpreter
-- Nuclei
-- Nikto
-- Netcat
-- cURL
-- searchsploit
-- gcc
-- perl
-- find
-- sudo
+- Improved logging and monitoring
